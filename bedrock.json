@@ -1,7 +1,10 @@
 {
     "variables": {
         "aws_access_key": "",
-        "aws_secret_key": ""
+        "aws_secret_key": "",
+        "bedrock_zip_file": "",
+        "aws_ami_name": "minecraft-bedrock",
+        "ubuntu_ami_base_image_name": "ubuntu/images/*ubuntu-bionic-18.04-amd64-server-*"
     },
     "builders": [
         {
@@ -12,7 +15,7 @@
             "source_ami_filter": {
               "filters": {
                 "virtualization-type": "hvm",
-                "name": "ubuntu/images/*ubuntu-bionic-18.04-amd64-server-*",
+                "name": "{{user `ubuntu_ami_base_image_name`}}",
                 "root-device-type": "ebs"
               },
               "owners": ["099720109477"],
@@ -20,13 +23,15 @@
             },
             "instance_type": "t2.micro",
             "ssh_username": "ubuntu",
-            "ami_name": "minecraft-bedrock-1-16-40-02"
+            "ami_name": "{{user `aws_ami_name`}}",
+            "force_deregister": "true",
+            "force_delete_snapshot": "true"
           }
     ],
     "provisioners": [
         {
             "destination": "/tmp/",
-            "source": "bedrock-server-1.16.40.02.zip",
+            "source": "{{user `bedrock_zip_file`}}",
             "type": "file"
         },    
         {
