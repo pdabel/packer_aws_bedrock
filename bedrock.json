@@ -36,7 +36,13 @@
         },    
         {
             "inline": [
-                "sudo apt install unzip; sudo mkdir /usr/local/bedrock/; cd /usr/local/bedrock && sudo unzip /tmp/bedrock-server-1.16.40.02.zip"
+                "sudo apt install unzip; sudo mkdir /usr/local/bedrock/; cd /usr/local/bedrock && sudo unzip /tmp/{{user `bedrock_zip_file`}}"
+            ],
+            "type": "shell"
+        },
+        {
+            "inline": [
+                "sudo apt update; sudo apt upgrade"
             ],
             "type": "shell"
         }
